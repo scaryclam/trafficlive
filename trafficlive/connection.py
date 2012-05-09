@@ -10,13 +10,9 @@ class _Connection(type):
     def __new__(cls, clsname, clsbases, clsdict):
         t = type.__new__(cls, clsname, clsbases, clsdict)
         for key, value in urls.iteritems():
-            print key, ';', value 
             url = value.pop('url')
-            print url
             method = value.pop('method')
-            print method
-            setattr(cls, key, test_func)
-            print "Set attr"
+            setattr(t, key, test_func)
         return t
 
     def _send_request(cls, *args, **kwargs):
