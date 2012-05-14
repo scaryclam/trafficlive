@@ -2,17 +2,19 @@ import requests
 from trafficlive.urlconf import urls
 
 
-def test_func(cls, *args, **kwargs):
-    result = cls._send_request(url, method, **kwargs)
-
-
 class _Connection(type):
     def __new__(cls, clsname, clsbases, clsdict):
         t = type.__new__(cls, clsname, clsbases, clsdict)
+
+        def tfunc(cls, url, method, **kwargs):
+            def test_func(cls): cls._send_request(url, method, **kwargs)
+            return test_func
+            
         for key, value in urls.iteritems():
             url = value.pop('url')
             method = value.pop('method')
-            setattr(t, key, test_func)
+            func = tfunc(cls, url, method, **value)
+            setattr(t, key, func)
         return t
 
     def _send_request(cls, *args, **kwargs):
@@ -27,8 +29,12 @@ class Connection(object):
         self.host = host
 
     def _send_request(self, url, method):
-        func = getattr(self.conn, method)
-        func("%s%s" % (self.host, url), auth=(self.username, self.password))
+        print "sending"
+        func = getattr(self.conn, method.lower())
+        print "executing"
+        response = func("%s%s" % (self.host, url), auth=(self.username, self.password))
+        print response
+        return response
 
     def set_credentials(self, username, password):
         self.username = username
