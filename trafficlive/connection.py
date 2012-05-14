@@ -6,14 +6,14 @@ class _Connection(type):
     def __new__(cls, clsname, clsbases, clsdict):
         t = type.__new__(cls, clsname, clsbases, clsdict)
 
-        def tfunc(cls, url, method, **kwargs):
-            def test_func(cls): cls._send_request(url, method, **kwargs)
+        def tfunc(cls, url, method, extra):
+            def test_func(cls, extra): cls._send_request(url, method, extra)
             return test_func
             
         for key, value in urls.iteritems():
             url = value.pop('url')
             method = value.pop('method')
-            func = tfunc(cls, url, method, **value)
+            func = tfunc(cls, url, method, value)
             setattr(t, key, func)
         return t
 
@@ -28,11 +28,13 @@ class Connection(object):
         self.conn = requests.session()
         self.host = host
 
-    def _send_request(self, url, method):
-        print "sending"
+    def _send_request(self, url, method, extra):
+        print "Kwargs", extra
+        full_url = url % extra
+        print "sending to %s" % full_url
         func = getattr(self.conn, method.lower())
         print "executing"
-        response = func("%s%s" % (self.host, url), auth=(self.username, self.password))
+        response = func("%s%s" % (self.host, full_url), auth=(self.username, self.password))
         print response
         return response
 
