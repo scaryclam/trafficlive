@@ -29,11 +29,8 @@ class Connection(object):
         self.host = host
 
     def _send_request(self, url, method, extra):
-        print "Kwargs", extra
         full_url = url % extra
-        print "sending to %s" % full_url
         func = getattr(self.conn, method.lower())
-        print "executing"
         response = func("%s%s" % (self.host, full_url), auth=(self.username, self.password))
         print response
         return response
