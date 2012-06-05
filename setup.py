@@ -9,15 +9,16 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-    name = "trafficlive",
-    version = "0.1",
-    author = "Becky Lewis",
-    author_email = "trafficlive@scaryclam.co.uk",
-    description = ("A simple API wrapper for trafficlives open API"),
-    license = "BSD",
-    keywords = "trafficlive",
-    url = "https://github.com/scaryclam/trafficlive",
+    name="trafficlive",
+    version="0.1",
+    author="Becky Lewis",
+    author_email="trafficlive@scaryclam.co.uk",
+    description=("A simple API wrapper for trafficlives open API"),
+    license="BSD",
+    keywords="trafficlive",
+    url="https://github.com/scaryclam/trafficlive",
     packages=['trafficlive'],
     long_description=read('README'),
+    requires=['requests'],
 )
 
