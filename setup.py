@@ -15,9 +15,9 @@ setup(
     author_email = "trafficlive@scaryclam.co.uk",
     description = ("A simple API wrapper for trafficlives open API"),
     license = "BSD",
-    keywords = "traficlive",
+    keywords = "trafficlive",
     url = "https://github.com/scaryclam/trafficlive",
     packages=['trafficlive'],
-    long_description=read('README.txt'),
+    long_description=read('README'),
 )
 
