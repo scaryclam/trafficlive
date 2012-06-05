@@ -6,7 +6,9 @@ class _Connection(type):
     def __new__(cls, clsname, clsbases, clsdict):
         t = type.__new__(cls, clsname, clsbases, clsdict)
 
-        def tfunc(cls, url, method, extra):
+        def tfunc(cls, url, method, extra=None):
+            if not extra:
+                extra = {}
             def test_func(cls, extra): cls._send_request(url, method, extra)
             return test_func
             
