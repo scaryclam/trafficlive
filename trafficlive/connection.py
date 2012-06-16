@@ -29,6 +29,8 @@ class Connection(object):
     def __init__(self, host="https://api.sohnar.com/TrafficLiteServer/openapi", username=None, password=None):
         self.conn = requests.session()
         self.host = host
+        self.username = None
+        self.password = None
 
     def _send_request(self, url, method, extra):
         full_url = url % extra
